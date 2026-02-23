@@ -1,0 +1,1 @@
+.animation-toast-in{animation:slide-top .4s cubic-bezier(.25,.46,.45,.94) forwards}.animation-toast-out{animation:fade-out .2s ease-out both}@keyframes jjjjjjjj-top{0%{transform:translateY(60px)}to{transform:translateY(0)}}@keyframes fade-out{0%{opacity:1}to{opacity:0}}

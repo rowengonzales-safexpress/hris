@@ -1,0 +1,17 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Mobile-responsive table styles */
+@import './_table.css';
+@import './_scrollbars.css';
+@import './_progress.css';
+@import './_print.css';
+@import './_checkbox-radio-switch.css';
+
+@layer base {
+  .pl-76 {
+    padding-left:19rem;
+  }
+}
+

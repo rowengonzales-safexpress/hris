@@ -1,0 +1,128 @@
+version: '3.8'
+
+services:
+  # PHP-FPM Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-app
+    container_name: laravel-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
+    networks:
+      - laravel-network
+    environment:
+      - REDIS_HOST=redis
+      - MAIL_HOST=mailpit
+      - MAIL_PORT=1025
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: nginx-server
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - laravel-network
+    depends_on:
+      - app
+
+  # Redis Service
+  redis:
+    image: redis:alpine
+    container_name: redis-cache
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - laravel-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Mailpit Service (for email testing)
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025" # SMTP port
+      - "8025:8025" # Web UI
+    networks:
+      - laravel-network
+
+  # Node.js Service (for frontend assets)
+  node:
+    image: node:18-alpine
+    container_name: node-app
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    ports:
+      - "5173:5173"
+    networks:
+      - laravel-network
+    tty: true
+    command: sh -c "npm install && npm run dev -- --host"
+
+  # Queue Worker
+  queue:
+    image: laravel-app
+    container_name: laravel-queue
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
+    command: php artisan queue:work
+    networks:
+      - laravel-network
+    environment:
+      - REDIS_HOST=redis
+      - MAIL_HOST=mailpit
+      - MAIL_PORT=1025
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - app
+      - redis
+
+  # Scheduler
+  scheduler:
+    image: laravel-app
+    container_name: laravel-scheduler
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
+    command: php artisan schedule:work
+    networks:
+      - laravel-network
+    environment:
+      - REDIS_HOST=redis
+      - MAIL_HOST=mailpit
+      - MAIL_PORT=1025
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - app
+      - redis
+
+# Docker Networks
+networks:
+  laravel-network:
+    driver: bridge
+

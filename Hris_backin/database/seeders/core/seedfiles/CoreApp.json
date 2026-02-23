@@ -1,0 +1,87 @@
+
+[
+    {
+        "id": 1,
+        "uuid": null,
+        "code": "admin",
+        "name": "ADMIN",
+        "description": "Admin Application",
+        "status": "A",
+        "status_message": "Welcome",
+        "route": "admin",
+        "createdBy": 1,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    },
+     {
+        "id": 2,
+        "uuid": null,
+        "code": "tms",
+        "name": "tracking",
+        "description": "Tracking Management System",
+        "status": "A",
+        "status_message": "Welcome",
+        "route": "tracking",
+        "createdBy": 1,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    },
+     {
+        "id": 4,
+        "uuid": null,
+        "code": "frls",
+        "name": "FRLS",
+        "description": "Fund Request and Liquidation System",
+        "status": "A",
+        "status_message": "Welcome",
+        "route": "frls",
+        "createdBy": 1,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 5,
+        "uuid": null,
+        "code": "sqdcm",
+        "name": "SQDCM",
+        "description": "SQDCM System",
+        "status": "A",
+        "status_message": "Welcome",
+        "route": "sqdcm",
+        "createdBy": 1,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 6,
+        "uuid": null,
+        "code": "weeklytask",
+        "name": "Weekly Task Schedule",
+        "description": "Weekly Task Schedule System",
+        "status": "A",
+        "status_message": "Welcome",
+        "route": "weekly-task",
+        "createdBy": 1,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 7,
+        "uuid": null,
+        "code": "techrecomm",
+        "name": "Tech Recommendation",
+        "description": "Tech Recommendation System",
+        "status": "A",
+        "status_message": "Welcome",
+        "route": "tech-recommendation",
+        "createdBy": 1,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    }
+]

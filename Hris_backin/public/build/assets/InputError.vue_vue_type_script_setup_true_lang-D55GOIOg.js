@@ -1,0 +1,1 @@
+import{d as s,O as t,Z as a,y as o,x as r,D as n,L as c}from"./@vue-DhfKueGL.js";const i={class:"text-sm text-red-600"},_=s({__name:"InputError",props:{message:{}},setup(e){return(m,p)=>t((o(),r("div",null,[n("p",i,c(e.message),1)],512)),[[a,e.message]])}});export{_};

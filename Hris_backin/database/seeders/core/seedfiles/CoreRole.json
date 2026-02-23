@@ -1,0 +1,111 @@
+﻿
+[
+    {
+        "id": 1,
+        "uuid": "",
+        "app_id": 1,
+        "name": "super_admin ",
+        "description": "root",
+        "is_active": 1,
+        "createdBy": 0,
+        "updatedBy": null,
+        "created_at": "2022-10-26 17:41:54",
+        "updated_at": "2022-10-26 17:41:54"
+    },
+    {
+        "id": 2,
+        "uuid": "",
+        "app_id": 1,
+        "name": "Siteheads",
+        "description": "Warehouse Administrator",
+         "is_active": 1,
+        "createdBy": 0,
+        "updatedBy": null,
+        "created_at": "2022-10-26 17:41:54",
+        "updated_at": "2022-10-26 17:41:54"
+    },
+    {
+        "id": 3,
+        "uuid": "",
+        "app_id": 1,
+        "name": "Admin requests",
+        "description": "Administrator requests",
+        "is_active": 1,
+        "createdBy": 0,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 4,
+        "uuid": "",
+        "app_id": 4,
+        "name": "Support",
+        "description": "Standard User",
+        "is_active": 1,
+        "createdBy": 0,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    },
+     {
+        "id": 5,
+        "uuid": "",
+        "app_id": 4,
+        "name": "Finance Staff",
+        "description": "Finance Staff",
+        "is_active": 1,
+        "createdBy": 0,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    },
+     {
+        "id": 6,
+        "uuid": "",
+        "app_id": 4,
+        "name": "Finance Manager",
+        "description": "Finance Manager",
+        "is_active": 1,
+        "createdBy": 0,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 7,
+        "uuid": "",
+        "app_id": 4,
+        "name": "ManCom",
+        "description": "ManCom",
+        "is_active": 1,
+        "createdBy": 0,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 8,
+        "uuid": "",
+        "app_id": 4,
+        "name": "ExeCom",
+        "description": "ExeCom",
+        "is_active": 1,
+        "createdBy": 0,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    },
+    {
+        "id": 9,
+        "uuid": "",
+        "app_id": 4,
+        "name": "CFO",
+        "description": "CFO",
+        "is_active": 1,
+        "createdBy": 0,
+        "updatedBy": null,
+        "created_at": null,
+        "updated_at": null
+    }
+]

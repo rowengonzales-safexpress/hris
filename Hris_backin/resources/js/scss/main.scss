@@ -1,0 +1,93 @@
+@import 'tailwind';
+@import 'icon-fonts/index';
+@import 'custom';
+@import 'dark-mode';
+
+:root {
+  /* Color Palette - Polyfill for Vuestic variables */
+  --va-primary: #2563EB; /* Blue-600 */
+  --va-secondary: #6B7280; /* Gray-500 */
+  --va-success: #22C55E; /* Green-500 */
+  --va-info: #3B82F6; /* Blue-500 */
+  --va-danger: #EF4444; /* Red-500 */
+  --va-warning: #EAB308; /* Yellow-500 */
+
+  /* Backgrounds - Light Mode */
+  --va-background-primary: #F3F4F6; /* Gray-100 */
+  --va-background-secondary: #FFFFFF; /* White */
+  --va-background-element: #FFFFFF;
+  --va-background-card-primary: #FFFFFF;
+  --va-background-card-secondary: #F9FAFB; /* Gray-50 */
+  --va-background-border: #E5E7EB; /* Gray-200 */
+
+  /* Text */
+  --va-text-primary: #111827; /* Gray-900 */
+  --va-text-inverted: #FFFFFF;
+
+  /* Misc */
+  --va-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --va-focus: #2563EB;
+
+  /* Font */
+  --va-font-family: 'Inter', sans-serif;
+}
+
+/* Dark Mode Overrides */
+.dark {
+  --va-background-primary: #111827; /* Gray-900 */
+  --va-background-secondary: #1F2937; /* Gray-800 */
+  --va-background-element: #374151; /* Gray-700 */
+  --va-background-card-primary: #1F2937;
+  --va-background-card-secondary: #374151;
+  --va-background-border: #374151;
+  --va-text-primary: #F9FAFB; /* Gray-50 */
+  --va-text-inverted: #111827;
+}
+
+body {
+  @apply text-regularMedium bg-backgroundPrimary text-textPrimary font-sans;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: monospace;
+  font-size: 1em;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.page-title {
+  @apply text-[32px] md:text-5xl font-bold leading-9 md:leading-[56px] max-sm:mt-6 mb-6 md:mb-4;
+}
+
+.h1 {
+  @apply text-[32px] md:text-5xl font-bold leading-9 md:leading-[56px] max-sm:mt-6 mb-6 md:mb-4;
+}
+
+.h3,
+.page-sub-title {
+  @apply text-2xl font-bold leading-[30px];
+}
+
+.h5 {
+  @apply font-bold leading-tight;
+}
+
+.block-title {
+  @apply text-2xl font-bold mb-2;
+}
+
+.pricing-plan-card-title {
+  @apply text-[28px] md:text-[32px] leading-10 font-bold;
+}
+
+.text-regular-small {
+  font-size: 0.8125rem;
+  line-height: 1rem;
+}

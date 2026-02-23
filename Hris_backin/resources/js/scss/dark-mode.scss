@@ -1,0 +1,140 @@
+// Dark Mode CSS Variables and Styles for WMS
+// This file contains all dark mode specific styles and CSS variables
+
+:root {
+  // Light theme variables (default)
+  --wms-bg-primary: #F4F6F8;
+  --wms-bg-secondary: #FFFFFF;
+  --wms-bg-surface: #FFFFFF;
+  --wms-bg-card: #F7F9F9;
+  --wms-bg-hover: #F3F4F6;
+
+  --wms-text-primary: #1A1A1A;
+  --wms-text-secondary: #6B7280;
+  --wms-text-muted: #9CA3AF;
+
+  --wms-border-color: #E5E7EB;
+  --wms-border-light: #F3F4F6;
+  --wms-divider: #E5E7EB;
+
+  --wms-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --wms-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --wms-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  --wms-accent-primary: #1976D2;
+  --wms-accent-success: #228200;
+  --wms-accent-warning: #FFD43A;
+  --wms-accent-danger: #E42222;
+  --wms-accent-info: #158DE3;
+}
+
+// Dark theme variables - Modern deep dark theme
+[data-theme="dark"] {
+  --wms-bg-primary: #0A0A0A;
+  --wms-bg-secondary: #111111;
+  --wms-bg-surface: #161616;
+  --wms-bg-card: #141414;
+  --wms-bg-hover: #1F1F1F;
+
+  --wms-text-primary: #FFFFFF;
+  --wms-text-secondary: #A1A1AA;
+  --wms-text-muted: #71717A;
+
+  --wms-border-color: #2A2A2A;
+  --wms-border-light: #333333;
+  --wms-divider: #2A2A2A;
+
+  --wms-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.8);
+  --wms-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
+  --wms-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.7);
+
+  --wms-accent-primary: #4F46E5;
+  --wms-accent-success: #059669;
+  --wms-accent-warning: #D97706;
+  --wms-accent-danger: #DC2626;
+  --wms-accent-info: #0EA5E9;
+}
+
+// Dark mode specific component styles
+[data-theme="dark"] {
+  // Body and html
+  body {
+    background-color: var(--wms-bg-primary);
+    color: var(--wms-text-primary);
+  }
+
+  // Custom WMS components
+  .wms-logo {
+    .logo-title {
+      color: var(--wms-accent-primary) !important;
+    }
+
+    .logo-subtitle {
+      color: var(--wms-text-secondary) !important;
+    }
+  }
+
+  // Slide panels
+  .slide-panel {
+    background-color: var(--wms-bg-card) !important;
+    border-color: var(--wms-border-color) !important;
+  }
+
+  .slide-panel-handle {
+    background-color: var(--wms-bg-card) !important;
+  }
+
+  // Background utility classes
+  .bg-backgroundSecondary {
+    background-color: var(--wms-bg-secondary) !important;
+  }
+
+  .bg-backgroundPrimary {
+    background-color: var(--wms-bg-primary) !important;
+  }
+
+  // Dashboard and content text
+  .dashboard-title,
+  .page-title,
+  .section-title {
+    color: var(--wms-text-primary) !important;
+  }
+
+  // Border utility classes
+  .border {
+    border-color: var(--wms-border-color) !important;
+  }
+
+  .border-t,
+  .border-b,
+  .border-l,
+  .border-r {
+    border-color: var(--wms-border-color) !important;
+  }
+}
+
+// Smooth transitions for theme switching
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+// Dark mode scrollbar styling
+[data-theme="dark"] {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--wms-bg-surface);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--wms-border-color);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--wms-border-light);
+  }
+}
