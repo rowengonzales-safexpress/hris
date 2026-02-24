@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
-import 'forgot_password_page.dart';
-import 'register_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
+  final _name = TextEditingController();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  final _confirmPassword = TextEditingController();
 
+  bool _hide1 = true;
+  bool _hide2 = true;
   bool _loading = false;
-  bool _obscure = true;
 
   @override
   void dispose() {
+    _name.dispose();
     _email.dispose();
     _password.dispose();
+    _confirmPassword.dispose();
     super.dispose();
   }
 
@@ -32,32 +35,31 @@ class _LoginPageState extends State<LoginPage> {
 
   String _friendlyError(Object e) {
     final msg = e.toString();
-    // Put your backend/Firebase error mapping here if needed
-    if (msg.contains('network')) return 'Network error. Check your internet connection.';
-    if (msg.contains('invalid-credentials')) return 'Incorrect email or password.';
-    return 'Something went wrong. Please try again.';
+    if (msg.contains('email-already-in-use')) return 'That email is already registered.';
+    if (msg.contains('network')) return 'Network error. Please try again.';
+    return 'Registration failed. Please try again.';
   }
 
-  Future<void> _onLogin() async {
-    // Basic validation
+  Future<void> _onRegister() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _loading = true);
 
     try {
+      final name = _name.text.trim();
       final email = _email.text.trim();
       final pass = _password.text;
 
-      // TODO: Replace with real login call (API/Firebase)
-      // await AuthService.login(email, pass);
+      // TODO: Replace with real register call
+      // await AuthService.register(name: name, email: email, password: pass);
 
-      // Fake: simulate failures if you want to test
       await Future.delayed(const Duration(milliseconds: 700));
-      // throw Exception('invalid-credentials');
-      // throw Exception('network');
+      // throw Exception('email-already-in-use');
 
       if (!mounted) return;
-      Navigator.of(context).pushReplacementNamed('/loading');
+
+      Navigator.pop(context);
+      _showSnack('Account created! Please login.');
     } catch (e) {
       if (!mounted) return;
       _showSnack(_friendlyError(e));
@@ -66,23 +68,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _goToForgotPassword() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const ForgotPasswordPage()),
-    );
-  }
-
-  void _goToRegister() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const RegisterPage()),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Register'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0.5,
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -92,13 +86,26 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.badge_outlined, size: 72, color: Colors.green),
+                  const Icon(Icons.person_add_alt_1, size: 72, color: Colors.green),
                   const SizedBox(height: 16),
-                  const Text(
-                    'HRIS Login',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-                  ),
+                  const Text('Create Account',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
                   const SizedBox(height: 32),
+
+                  TextFormField(
+                    controller: _name,
+                    decoration: const InputDecoration(
+                      labelText: 'Full Name',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (v) {
+                      final value = (v ?? '').trim();
+                      if (value.isEmpty) return 'Name is required';
+                      if (value.length < 2) return 'Enter a valid name';
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
 
                   TextFormField(
                     controller: _email,
@@ -119,13 +126,13 @@ class _LoginPageState extends State<LoginPage> {
 
                   TextFormField(
                     controller: _password,
-                    obscureText: _obscure,
+                    obscureText: _hide1,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       border: const OutlineInputBorder(),
                       suffixIcon: IconButton(
-                        onPressed: () => setState(() => _obscure = !_obscure),
-                        icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
+                        onPressed: () => setState(() => _hide1 = !_hide1),
+                        icon: Icon(_hide1 ? Icons.visibility_off : Icons.visibility),
                       ),
                     ),
                     validator: (v) {
@@ -135,22 +142,32 @@ class _LoginPageState extends State<LoginPage> {
                       return null;
                     },
                   ),
+                  const SizedBox(height: 16),
 
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: _loading ? null : _goToForgotPassword,
-                      child: const Text('Forgot password?'),
+                  TextFormField(
+                    controller: _confirmPassword,
+                    obscureText: _hide2,
+                    decoration: InputDecoration(
+                      labelText: 'Confirm Password',
+                      border: const OutlineInputBorder(),
+                      suffixIcon: IconButton(
+                        onPressed: () => setState(() => _hide2 = !_hide2),
+                        icon: Icon(_hide2 ? Icons.visibility_off : Icons.visibility),
+                      ),
                     ),
+                    validator: (v) {
+                      if ((v ?? '').isEmpty) return 'Confirm password is required';
+                      if (v != _password.text) return 'Passwords do not match';
+                      return null;
+                    },
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
                     height: 48,
                     child: ElevatedButton(
-                      onPressed: _loading ? null : _onLogin,
+                      onPressed: _loading ? null : _onRegister,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
@@ -163,23 +180,15 @@ class _LoginPageState extends State<LoginPage> {
                               height: 20,
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
-                          : const Text(
-                              'Login',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                            ),
+                          : const Text('Register',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                     ),
                   ),
 
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("No account? "),
-                      TextButton(
-                        onPressed: _loading ? null : _goToRegister,
-                        child: const Text('Register'),
-                      ),
-                    ],
+                  const SizedBox(height: 10),
+                  TextButton(
+                    onPressed: _loading ? null : () => Navigator.pop(context),
+                    child: const Text('Already have an account? Login'),
                   ),
                 ],
               ),

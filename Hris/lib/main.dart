@@ -9,6 +9,8 @@ import 'notification_detail_page.dart';
 import 'welcome_page.dart';
 import 'leave_loading_page.dart';
 import 'leave_page.dart';
+import 'register_page.dart';
+import 'forgot_password_page.dart';
 
 void main() {
   runApp(const HrisApp());
@@ -39,6 +41,8 @@ class HrisApp extends StatelessWidget {
         '/welcome': (context) => const WelcomePage(),
         '/leaveLoading': (context) => const LeaveLoadingPage(),
         '/leave': (context) => const LeavePage(),
+        '/register': (context) => const RegisterPage(),
+        '/forgotPassword': (context) => const ForgotPasswordPage(),
       },
     );
   }
