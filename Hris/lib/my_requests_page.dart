@@ -34,7 +34,8 @@ class MyRequestsPage extends StatelessWidget {
             _RequestCard(
               icon: Icons.work_outline,
               title: 'Leaves',
-              subtitle: 'View or Apply for a vacation leave, sick leave, etc.',
+              subtitle:
+                  'View or Apply for a vacation leave, sick leave, etc.',
               onTap: () {
                 Navigator.of(context).pushNamed('/leaveLoading');
               },
@@ -104,7 +105,10 @@ class _RequestCard extends StatelessWidget {
                 color: Colors.green.shade50,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, color: Colors.green),
+              child: Icon(
+                icon,
+                color: Colors.green,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -121,14 +125,20 @@ class _RequestCard extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     subtitle,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
                   ),
                 ],
               ),
             ),
             if (trailingLabel != null)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.circular(12),

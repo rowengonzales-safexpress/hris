@@ -38,26 +38,17 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 16),
               const Text(
                 'ROWEN GONZALES',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 4),
               const Text(
                 'INFORMATION TECHNOLOGY',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 13, color: Colors.grey),
               ),
               const SizedBox(height: 4),
               const Text(
                 'OPERATIONS',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 13, color: Colors.grey),
               ),
               const SizedBox(height: 12),
               Container(
@@ -69,12 +60,7 @@ class ProfilePage extends StatelessWidget {
                   color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Text(
-                  'ID: 2609',
-                  style: TextStyle(
-                    fontSize: 13,
-                  ),
-                ),
+                child: const Text('ID: 2609', style: TextStyle(fontSize: 13)),
               ),
               const SizedBox(height: 24),
               Align(
@@ -93,10 +79,12 @@ class ProfilePage extends StatelessWidget {
               _ProfileSectionCard(
                 title: 'Basic Information',
                 subtitle: 'View your personal details',
+                onTap: () => Navigator.of(context).pushNamed('/basicInfo'),
               ),
               _ProfileSectionCard(
                 title: 'Government Information',
                 subtitle: 'Tax and government IDs',
+                onTap: () => Navigator.of(context).pushNamed('/governmentInfo'),
               ),
               const SizedBox(height: 16),
               Align(
@@ -115,10 +103,12 @@ class ProfilePage extends StatelessWidget {
               _ProfileSectionCard(
                 title: 'Work Information',
                 subtitle: 'Department and position',
+                onTap: () => Navigator.of(context).pushNamed('/workInfo'),
               ),
               _ProfileSectionCard(
                 title: 'Work Schedule',
                 subtitle: 'Shift and schedule details',
+                onTap: () => Navigator.of(context).pushNamed('/workSchedule'),
               ),
             ],
           ),
@@ -131,55 +121,52 @@ class ProfilePage extends StatelessWidget {
 class _ProfileSectionCard extends StatelessWidget {
   final String title;
   final String subtitle;
+  final VoidCallback? onTap;
 
   const _ProfileSectionCard({
     super.key,
     required this.title,
     required this.subtitle,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const Icon(
-            Icons.arrow_forward_ios,
-            size: 16,
-            color: Colors.grey,
-          ),
-        ],
+            const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+          ],
+        ),
       ),
     );
   }
 }
-

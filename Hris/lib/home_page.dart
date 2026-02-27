@@ -29,10 +29,7 @@ class _HomePageState extends State<HomePage> {
         ),
         title: const Text(
           'Safexpress Logistics Inc.',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-          ),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
         ),
         actions: [
           IconButton(
@@ -87,10 +84,7 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(height: 4),
                           Text(
                             '8:00 AM–5:00 PM',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey,
-                            ),
+                            style: TextStyle(fontSize: 13, color: Colors.grey),
                           ),
                         ],
                       ),
@@ -123,21 +117,30 @@ class _HomePageState extends State<HomePage> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                const _FeatureIcon(
+                _FeatureIcon(
                   icon: Icons.receipt_long_outlined,
                   label: 'Payroll',
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/payroll');
+                  },
                 ),
-                const _FeatureIcon(
+                _FeatureIcon(
                   icon: Icons.people_outline,
                   label: 'Directory',
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/directory');
+                  },
                 ),
                 const _FeatureIcon(
                   icon: Icons.access_time_outlined,
                   label: 'CIAO',
                 ),
-                const _FeatureIcon(
+                _FeatureIcon(
                   icon: Icons.check_box_outlined,
                   label: 'Attendance',
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/attendanceLoading');
+                  },
                 ),
                 _FeatureIcon(
                   icon: Icons.fact_check_outlined,
@@ -165,18 +168,12 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 12),
             Row(
               children: const [
-                _FeatureIcon(
-                  icon: Icons.attach_money,
-                  label: 'ReadyCash',
-                ),
+                _FeatureIcon(icon: Icons.attach_money, label: 'ReadyCash'),
               ],
             ),
             const SizedBox(height: 24),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [
@@ -198,10 +195,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  Icon(
-                    Icons.flash_on_outlined,
-                    color: Colors.white,
-                  ),
+                  Icon(Icons.flash_on_outlined, color: Colors.white),
                 ],
               ),
             ),
@@ -209,55 +203,64 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: [
                 Expanded(
-                  child: Container(
-                    height: 72,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.blue),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.login,
-                          color: Colors.blue,
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          'Clock In',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w600,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(
+                        context,
+                      ).pushNamed('/clockInLoading', arguments: {'type': 'IN'});
+                    },
+                    child: Container(
+                      height: 72,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.blue),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.login, color: Colors.blue),
+                          SizedBox(height: 4),
+                          Text(
+                            'Clock In',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: Container(
-                    height: 72,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.orange),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.logout,
-                          color: Colors.orange,
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          'Clock Out',
-                          style: TextStyle(
-                            color: Colors.orange,
-                            fontWeight: FontWeight.w600,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        '/clockInLoading',
+                        arguments: {'type': 'OUT'},
+                      );
+                    },
+                    child: Container(
+                      height: 72,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.orange),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.logout, color: Colors.orange),
+                          SizedBox(height: 4),
+                          Text(
+                            'Clock Out',
+                            style: TextStyle(
+                              color: Colors.orange,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -287,7 +290,9 @@ class _FeatureIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      behavior: HitTestBehavior.opaque,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             height: 52,
@@ -296,18 +301,13 @@ class _FeatureIcon extends StatelessWidget {
               color: Colors.green.shade50,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(
-              icon,
-              color: Colors.green,
-            ),
+            child: Icon(icon, color: Colors.green),
           ),
           const SizedBox(height: 8),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

@@ -1,0 +1,141 @@
+-- User Table
+-- Stores basic employee information and login credentials
+CREATE TABLE tbl_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id VARCHAR(50) NOT NULL UNIQUE, -- e.g., SLI-579
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    middle_name VARCHAR(100),
+    last_name VARCHAR(100) NOT NULL,
+    gender ENUM('Male', 'Female', 'Other'),
+    civil_status ENUM('Single', 'Married', 'Divorced', 'Widowed'),
+    date_of_birth DATE,
+    email VARCHAR(150),
+    mobile_number VARCHAR(20),
+    profile_image_url VARCHAR(255),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Government Information Table
+-- Stores government-issued ID numbers
+CREATE TABLE tbl_user_government_info (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    sss_no VARCHAR(50),
+    tin_no VARCHAR(50),
+    philhealth_no VARCHAR(50),
+    pagibig_no VARCHAR(50),
+    prc_license_no VARCHAR(50),
+    passport_no VARCHAR(50),
+    rdo_code VARCHAR(20),
+    other_ids VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES tbl_users(id) ON DELETE CASCADE
+);
+
+-- Work Information Table
+-- Stores employment details, job titles, and department info
+CREATE TABLE tbl_user_work_info (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    company_name VARCHAR(150),
+    department VARCHAR(100), -- e.g., OPERATIONS
+    job_title VARCHAR(100), -- e.g., INFORMATION TECHNOLOGY
+    employee_type VARCHAR(50), -- e.g., rank and file
+    immediate_supervisor VARCHAR(100),
+    immediate_head_id INT, -- User ID of the immediate head for approvals
+    designated_workplace VARCHAR(100), -- e.g., CEBU SYSU
+    employment_status VARCHAR(50), -- e.g., Regular, Probationary
+    user_type VARCHAR(50), -- e.g., Employee
+    job_code VARCHAR(50),
+    job_grade VARCHAR(10),
+    client_name VARCHAR(150),
+    billability VARCHAR(50),
+    expected_regularization_date DATE,
+    regularization_date DATE,
+    employment_remarks TEXT,
+    biometric_id VARCHAR(50),
+    payroll_run_type VARCHAR(50), -- e.g., Monthly
+    FOREIGN KEY (user_id) REFERENCES tbl_users(id) ON DELETE CASCADE,
+    FOREIGN KEY (immediate_head_id) REFERENCES tbl_users(id) ON DELETE SET NULL
+);
+
+-- Work Schedule Table
+-- Stores the default weekly schedule for each user
+CREATE TABLE tbl_work_schedules (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    day_of_week ENUM('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday') NOT NULL,
+    is_rest_day BOOLEAN DEFAULT FALSE,
+    shift_start_time TIME,
+    shift_end_time TIME,
+    break_start_time TIME,
+    break_end_time TIME,
+    schedule_type VARCHAR(50) DEFAULT 'Normal Shift',
+    working_hours DECIMAL(4, 2) DEFAULT 9.00, -- Including break
+    FOREIGN KEY (user_id) REFERENCES tbl_users(id) ON DELETE CASCADE
+);
+
+-- Attendance Logs Table
+-- Stores daily clock-in and clock-out records
+CREATE TABLE tbl_attendance_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    log_date DATE NOT NULL,
+    clock_in_time DATETIME,
+    clock_out_time DATETIME,
+    clock_in_latitude DECIMAL(10, 8),
+    clock_in_longitude DECIMAL(11, 8),
+    clock_in_address VARCHAR(255),
+    clock_out_latitude DECIMAL(10, 8),
+    clock_out_longitude DECIMAL(11, 8),
+    clock_out_address VARCHAR(255),
+    status ENUM('Present', 'Absent', 'Late', 'Undertime') DEFAULT 'Absent',
+    remarks TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES tbl_users(id) ON DELETE CASCADE
+);
+
+-- Leave Requests Table
+-- Stores leave applications
+CREATE TABLE tbl_leave_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    leave_type VARCHAR(50) NOT NULL, -- e.g., Vacation Leave, Sick Leave
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    reason TEXT,
+    status ENUM('Pending', 'Approved', 'Rejected', 'Cancelled') DEFAULT 'Pending',
+    approved_by INT, -- References tbl_users(id) of the supervisor
+    rejection_reason TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES tbl_users(id) ON DELETE CASCADE,
+    FOREIGN KEY (approved_by) REFERENCES tbl_users(id) ON DELETE SET NULL
+);
+
+-- Notifications Table
+-- Stores in-app notifications for users
+CREATE TABLE tbl_notifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    message TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES tbl_users(id) ON DELETE CASCADE
+);
+
+-- Audit Log Table (Optional but good practice)
+-- Tracks changes made to sensitive records
+CREATE TABLE tbl_audit_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT, -- Who performed the action
+    action VARCHAR(50), -- e.g., UPDATE_PROFILE, DELETE_REQUEST
+    table_name VARCHAR(50),
+    record_id INT,
+    old_value TEXT,
+    new_value TEXT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
