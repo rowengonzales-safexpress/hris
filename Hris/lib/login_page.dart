@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'forgot_password_page.dart';
 import 'register_page.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,34 +35,45 @@ class _LoginPageState extends State<LoginPage> {
   String _friendlyError(Object e) {
     final msg = e.toString();
     // Put your backend/Firebase error mapping here if needed
-    if (msg.contains('network')) return 'Network error. Check your internet connection.';
-    if (msg.contains('invalid-credentials')) return 'Incorrect email or password.';
+    if (msg.contains('network'))
+      return 'Network error. Check your internet connection.';
+    if (msg.contains('invalid-credentials'))
+      return 'Incorrect email or password.';
     return 'Something went wrong. Please try again.';
   }
 
   Future<void> _onLogin() async {
-    // Basic validation
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _loading = true);
 
     try {
-      final email = _email.text.trim();
-      final pass = _password.text;
+      final response = await http.post(
+        Uri.parse('http://10.0.2.2:5000/api/login'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "email": _email.text.trim(),
+          "password": _password.text,
+        }),
+      );
 
-      // TODO: Replace with real login call (API/Firebase)
-      // await AuthService.login(email, pass);
+      final data = jsonDecode(response.body);
 
-      // Fake: simulate failures if you want to test
-      await Future.delayed(const Duration(milliseconds: 700));
-      // throw Exception('invalid-credentials');
-      // throw Exception('network');
+      if (response.statusCode == 200) {
+        // Only login if success
+        final token = data["token"];
+        print("JWT Token: $token");
 
-      if (!mounted) return;
-      Navigator.of(context).pushReplacementNamed('/loading');
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, '/loading');
+      } else {
+        // Show backend message (User not found / Incorrect password)
+        if (!mounted) return;
+        _showSnack(data["message"] ?? "Login failed");
+      }
     } catch (e) {
       if (!mounted) return;
-      _showSnack(_friendlyError(e));
+      _showSnack("Network error. Please check your connection.");
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -92,7 +105,11 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.badge_outlined, size: 72, color: Colors.green),
+                  const Icon(
+                    Icons.badge_outlined,
+                    size: 72,
+                    color: Colors.green,
+                  ),
                   const SizedBox(height: 16),
                   const Text(
                     'HRIS Login',
@@ -125,7 +142,9 @@ class _LoginPageState extends State<LoginPage> {
                       border: const OutlineInputBorder(),
                       suffixIcon: IconButton(
                         onPressed: () => setState(() => _obscure = !_obscure),
-                        icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
+                        icon: Icon(
+                          _obscure ? Icons.visibility_off : Icons.visibility,
+                        ),
                       ),
                     ),
                     validator: (v) {
@@ -165,7 +184,10 @@ class _LoginPageState extends State<LoginPage> {
                             )
                           : const Text(
                               'Login',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                     ),
                   ),
